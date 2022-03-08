@@ -195,6 +195,7 @@ deal.addEventListener('click', ()=>{
         document.getElementById("stand-button").disabled = true;
         document.getElementById("surrender-button").disabled = true;
         document.getElementById("doubledown-button").disabled = true;
+        document.getElementById("playagain-button").disabled = false;
         cash += (betAmt * (5/2))
         cashBtn.innerText = `Cash: ${cash}`
     }
