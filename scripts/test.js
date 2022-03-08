@@ -54,7 +54,7 @@ const deck = [
     { card: "ace", suit: "hearts", value: 1, pic: 'images/ace_of_hearts.png' },
     { card: "ace", suit: "spades", value: 1, pic: 'images/ace_of_spades.png' },
 ]
-
+d
 let shoe = [
     ...deck,
     ...deck,

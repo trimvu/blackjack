@@ -123,19 +123,23 @@ var audio = new Audio('extras/Card-flip-sound-effect.mp3');
 
 deal.addEventListener('click', ()=>{
 
-    document.getElementById("hit-button").disabled = false;
-    document.getElementById("stand-button").disabled = false;
+    document.getElementById("doubledown-button").disabled = false;
+    document.getElementById("surrender-button").disabled = false;
+    document.getElementById("deal-button").disabled = true;
 
-    removeAllChildNodes(dHand)
-    removeAllChildNodes(pHand)
-    removeAllChildNodes(message)
-    dScore.innerText = ''
+    // document.getElementById("hit-button").disabled = false;
+    // document.getElementById("stand-button").disabled = false;
 
-    dealerHand = [];
-    playerHand = [];
+    // removeAllChildNodes(dHand)
+    // removeAllChildNodes(pHand)
+    // removeAllChildNodes(message)
+    // dScore.innerText = ''
 
-    dTotal = 0;
-    pTotal = 0;
+    // dealerHand = [];
+    // playerHand = [];
+
+    // dTotal = 0;
+    // pTotal = 0;
     
     let deal1 = shoe.pop()
     playerHand.push(deal1.value)
@@ -187,11 +191,15 @@ deal.addEventListener('click', ()=>{
         message.innerText = "BLACKJACK!!"
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
+        cash += (betAmt * (5/2))
+        cashBtn.innerText = `Cash: ${cash}`
     }
     else if (dealerHand.includes(1) && dealerHand.includes(10)) {
         message.innerText = "DEALER BLACKJACK"
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
     }
     
 })
@@ -216,11 +224,15 @@ hit.addEventListener('click', () => {
         pTotal += draw1.value
         createpImage(draw1.pic)
         audio.play();
+        document.getElementById("surrender-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
     }
 
     if (playerHand.includes(1) && pTotal > 21) {
         pTotal -= 10
         pScore.innerText = pTotal
+        document.getElementById("surrender-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
     }
 
     // dScore.innerText = dTotal
@@ -234,6 +246,9 @@ let stand = document.getElementById('stand-button')
 
 stand.addEventListener('click', ()=> {
     document.getElementById("hit-button").disabled = true;
+    document.getElementById("deal-button").disabled = true;
+    document.getElementById("doubledown-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
 
     reveal(facedown)
     
@@ -242,7 +257,7 @@ stand.addEventListener('click', ()=> {
         message.innerText = "You can't stand yet."
     }
     else if (pTotal > 21) {
-        message.innerText = " You already busted. Cannot stand."
+        message.innerText = "Bust."
     }
     else {
         while (dTotal < 17) {
@@ -257,18 +272,24 @@ stand.addEventListener('click', ()=> {
 
         if (dTotal == pTotal) {
             message.innerText = "Push"
+            cash += betAmt
+            cashBtn.innerText = `Cash: $${cash}`
         }
         else if (pTotal > 21) {
             message.innerText = "You busts"
         }
         else if (dTotal > 21) {
             message.innerText = "Dealer busts!"
+            cash += (betAmt * 2)
+            cashBtn.innerText = `Cash: $${cash}`
         }
         else if (dTotal > pTotal) {
             message.innerText = "House wins"
         } 
         else if (dTotal < pTotal) {
             message.innerText = "You win!"
+            cash += (betAmt * 2)
+            cashBtn.innerText = `Cash: $${cash}`
         }
         
 
@@ -277,5 +298,102 @@ stand.addEventListener('click', ()=> {
 
 let message = document.getElementById('messages')
 
-let split = document.getElementById('split-button')
-let splitHand = document.getElementsByClassName('hand2')
+let money = document.getElementById('money')
+let fiveD = document.getElementById('5')
+let tenD = document.getElementById('10')
+let twofiveD = document.getElementById('25')
+let hundredD = document.getElementById('100')
+let bet = document.getElementById('bet-button')
+
+let cash = 500
+let betAmt = 0
+
+bet.addEventListener('click', ()=>{
+    if (money.value === '$5') {
+        cash -= 5
+        betAmt += 5
+        console.log(cash);
+        cashBtn.innerText = `Cash: $${cash}`
+        document.getElementById("bet-button").disabled = true;
+    }
+    else if (money.value === '$10') {
+        cash -= 10
+        betAmt += 10
+        cashBtn.innerText = `Cash: ${cash}`
+        document.getElementById("bet-button").disabled = true;
+    }
+    else if (money.value === '$25') {
+        cash -= 25
+        betAmt += 25
+        cashBtn.innerText = `Cash: ${cash}`
+        document.getElementById("bet-button").disabled = true;
+    }
+    else if (money.value === '$100') {
+        cash -= 100
+        betAmt += 100
+        cashBtn.innerText = `Cash: ${cash}`
+        document.getElementById("bet-button").disabled = true;
+    }
+})
+
+let cashBtn = document.getElementById('cash')
+cashBtn.innerText = `Cash: $${cash}`
+
+let playagain = document.getElementById('playagain-button')
+
+playagain.addEventListener('click', ()=>{ 
+
+    document.getElementById("deal-button").disabled = false;
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
+    document.getElementById("bet-button").disabled = false;
+    document.getElementById("surrender-button").disabled = false;
+    document.getElementById("doubledown-button").disabled = true;
+
+    removeAllChildNodes(dHand)
+    removeAllChildNodes(pHand)
+    removeAllChildNodes(message)
+    dScore.innerText = ''
+
+    dealerHand = [];
+    playerHand = [];
+
+    dTotal = 0;
+    pTotal = 0;
+
+    betAmt = 0;
+        
+})
+
+let surrender = document.getElementById('surrender-button')
+
+surrender.addEventListener('click', () => {
+    cash += (betAmt * 0.5)
+    cashBtn.innerText = `Cash: ${cash}`
+    document.getElementById("deal-button").disabled = true;
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
+    document.getElementById("bet-button").disabled = true;
+    document.getElementById("surrender-button").disabled = true;
+})
+
+let double = document.getElementById('doubledown-button')
+
+double.addEventListener('click', ()=> {
+    cash -= betAmt;
+    betAmt *= 2;
+    let draw1 = shoe.pop()
+    playerHand.push(draw1.value)
+    pTotal += draw1.value
+    createpImage(draw1.pic)
+    pScore.innerText = pTotal
+    audio.play();
+    cashBtn.innerText = `Cash: ${cash}`
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("surrender-button").disabled = true;
+    document.getElementById("doubledown-button").disabled = true;
+
+})
+
+document.getElementById("doubledown-button").disabled = true;
+document.getElementById("surrender-button").disabled = true;
