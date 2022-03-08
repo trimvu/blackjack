@@ -126,6 +126,8 @@ deal.addEventListener('click', ()=>{
     document.getElementById("doubledown-button").disabled = false;
     document.getElementById("surrender-button").disabled = false;
     document.getElementById("deal-button").disabled = true;
+    document.getElementById("hit-button").disabled = false;
+    document.getElementById("stand-button").disabled = false;
 
     // document.getElementById("hit-button").disabled = false;
     // document.getElementById("stand-button").disabled = false;
@@ -191,6 +193,7 @@ deal.addEventListener('click', ()=>{
         message.innerText = "BLACKJACK!!"
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
+        document.getElementById("surrender-button").disabled = true;
         document.getElementById("doubledown-button").disabled = true;
         cash += (betAmt * (5/2))
         cashBtn.innerText = `Cash: ${cash}`
@@ -199,12 +202,15 @@ deal.addEventListener('click', ()=>{
         message.innerText = "DEALER BLACKJACK"
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
+        document.getElementById("surrender-button").disabled = true;
         document.getElementById("doubledown-button").disabled = true;
+        document.getElementById("playagain-button").disabled = false;
     }
     
 })
 
 hit.addEventListener('click', () => {
+    document.getElementById("playagain-button").disabled = true;
 
     if (playerHand.length === 0) {
         
@@ -249,6 +255,8 @@ stand.addEventListener('click', ()=> {
     document.getElementById("deal-button").disabled = true;
     document.getElementById("doubledown-button").disabled = true;
     document.getElementById("stand-button").disabled = true;
+    document.getElementById("surrender-button").disabled = true;
+    document.getElementById("playagain-button").disabled = false;
 
     reveal(facedown)
     
@@ -299,16 +307,20 @@ stand.addEventListener('click', ()=> {
 let message = document.getElementById('messages')
 
 let money = document.getElementById('money')
-let fiveD = document.getElementById('5')
-let tenD = document.getElementById('10')
-let twofiveD = document.getElementById('25')
-let hundredD = document.getElementById('100')
+
 let bet = document.getElementById('bet-button')
 
 let cash = 500
 let betAmt = 0
 
 bet.addEventListener('click', ()=>{
+    document.getElementById("deal-button").disabled = false;
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
+    document.getElementById("bet-button").disabled = true;
+    document.getElementById("surrender-button").disabled = true;
+    document.getElementById("doubledown-button").disabled = true;
+
     if (money.value === '$5') {
         cash -= 5
         betAmt += 5
@@ -343,17 +355,17 @@ let playagain = document.getElementById('playagain-button')
 
 playagain.addEventListener('click', ()=>{ 
 
-    document.getElementById("deal-button").disabled = false;
-    document.getElementById("hit-button").disabled = false;
-    document.getElementById("stand-button").disabled = false;
+    document.getElementById("deal-button").disabled = true;
+    document.getElementById("hit-button").disabled = true;
+    document.getElementById("stand-button").disabled = true;
     document.getElementById("bet-button").disabled = false;
-    document.getElementById("surrender-button").disabled = false;
+    document.getElementById("surrender-button").disabled = true;
     document.getElementById("doubledown-button").disabled = true;
 
     removeAllChildNodes(dHand)
     removeAllChildNodes(pHand)
     removeAllChildNodes(message)
-    dScore.innerText = ''
+    // dScore.innerText = ''
 
     dealerHand = [];
     playerHand = [];
@@ -397,3 +409,7 @@ double.addEventListener('click', ()=> {
 
 document.getElementById("doubledown-button").disabled = true;
 document.getElementById("surrender-button").disabled = true;
+document.getElementById("deal-button").disabled = true;
+document.getElementById("hit-button").disabled = true;
+document.getElementById("stand-button").disabled = true;
+document.getElementById("playagain-button").disabled = true;
