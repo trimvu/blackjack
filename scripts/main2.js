@@ -240,6 +240,11 @@ hit.addEventListener('click', () => {
         pScore.innerText = pTotal
         document.getElementById("surrender-button").disabled = true;
         document.getElementById("doubledown-button").disabled = true;
+    } else if (playerHand.includes(1) && pTotal === 11) {
+        pTotal += 10
+        pScore.innerText = pTotal
+        document.getElementById("surrender-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
     }
 
     // dScore.innerText = dTotal
@@ -321,6 +326,7 @@ bet.addEventListener('click', ()=>{
     document.getElementById("bet-button").disabled = true;
     document.getElementById("surrender-button").disabled = true;
     document.getElementById("doubledown-button").disabled = true;
+    document.getElementById("playagain-button").disabled = true;
 
     if (money.value === '$5') {
         cash -= 5
@@ -362,6 +368,7 @@ playagain.addEventListener('click', ()=>{
     document.getElementById("bet-button").disabled = false;
     document.getElementById("surrender-button").disabled = true;
     document.getElementById("doubledown-button").disabled = true;
+    document.getElementById("playagain-button").disabled = true;
 
     removeAllChildNodes(dHand)
     removeAllChildNodes(pHand)
@@ -388,6 +395,8 @@ surrender.addEventListener('click', () => {
     document.getElementById("stand-button").disabled = true;
     document.getElementById("bet-button").disabled = true;
     document.getElementById("surrender-button").disabled = true;
+    document.getElementById("doubledown-button").disabled = true;
+    document.getElementById("playagain-button").disabled = false;
 })
 
 let double = document.getElementById('doubledown-button')
@@ -405,6 +414,13 @@ double.addEventListener('click', ()=> {
     document.getElementById("hit-button").disabled = true;
     document.getElementById("surrender-button").disabled = true;
     document.getElementById("doubledown-button").disabled = true;
+
+    if (playerHand.includes(1) && pTotal === 11) {
+        pTotal += 10
+        pScore.innerText = pTotal
+        document.getElementById("surrender-button").disabled = true;
+        document.getElementById("doubledown-button").disabled = true;
+    }
 
 })
 
